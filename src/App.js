@@ -6,7 +6,7 @@ import SignInAndSignUp from './pages/sign-in-and-sign-up-page/sign-in-and-sign-u
 import Header from './components/header/header.component';
 import CheckOut from './pages/checkout/checkout.component';
 
-import {Routes, Route, Navigate, useLocation} from 'react-router-dom';
+import {Routes, Route, Navigate} from 'react-router-dom';
 import {auth, createUserProfileDocument} from './firebase/firebase.utils.js';
 import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/user/user.actions';
@@ -14,16 +14,15 @@ import { selectCurrentUser } from './redux/user/user.selectors';
 import { createStructuredSelector } from 'reselect';
 import CollectionPage from './pages/collection/collection.component';
 
-const HatsPage = () => {
-  return(<div>
-    <h1>Hats Page</h1>
-  </div>);
-};
-
 
 class App extends React.Component {
 
   unsubscribeFromAuth = null;
+
+  state = {
+    loading: true
+  };
+  
 
   componentDidMount(){
     const {setCurrentUser} = this.props;
@@ -39,6 +38,7 @@ class App extends React.Component {
         });
       }
       setCurrentUser(userAuth);
+      this.setState({loading: false});
     });
   }
 
@@ -58,7 +58,6 @@ class App extends React.Component {
             
           </Route>
           <Route path='shop/:id' element={<CollectionPage />} />
-          <Route path = '/hats' element={<HatsPage/>} />
           <Route exact path = '/signIn' 
           element={this.props.currentUser?<Navigate to="/"/>:<SignInAndSignUp />}/>
           <Route exact path = '/checkout' element={<CheckOut/>}/>
