@@ -23,3 +23,7 @@ export const appendCartItem = cartItem=>({
     type: CartActionTypes.APPEND_ITEM,
     payload: cartItem
 });
+
+export const clearCart = ()=> ({
+    type: CartActionTypes.CLEAR_CART
+});
